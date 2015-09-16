@@ -24,13 +24,15 @@
             + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'am';
           }
 /* End time-stamp creation/formatting code */
+          var backgrndColors = {douglascalhoun: 'grey', mracus: '#BECACF',
+                shawndrost: 'rgba(128, 128, 128, 0.26)', sharksforcheap: 'rgba(116, 5, 5, 0.4)'};
           $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + timestamp)
                 .css({'font-size': '18px',
-                      width: '85%',
+                      width: '95%',
                       'background-color': 'gray',
                       padding: '15px',
                       margin: '10px auto',
-                      float: 'top',
+                      // float: 'top',
                       'border-radius': '10px'
                 });
           $tweet.appendTo($body);
