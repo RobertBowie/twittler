@@ -9,8 +9,24 @@
 
       $(document).ready(function(){
         var $body = $('body');
-        $body.html('');
+        $body.html('<nav class="fixed-nav-bar"></nav><div class="content" style="margin-top: 50px;">').css(
+                            {'background-size': 'cover',
+                            'background-color': 'black'
+                            });
+        var $navBar = $('.fixed-nav-bar');
+        var $content = $('.content');
+        $navBar.css({'position': 'fixed',
+                            'top': '0',
+                            'left': '0',
+                            'z-index': '9999',
+                            'width': '100%',
+                            'height': '50px',
+                            'background-color': '#000'});
         var index = streams.home.length - 1;
+        var userStyles = {douglascalhoun: {bkgrnd: '#808080', color: 'white'},
+                          mracus: {bkgrnd: '#BECACF', color: 'black'},
+                          shawndrost: {bkgrnd: '#DEDEDE', color: '#258028'},
+                          sharksforcheap: {bkgrnd: '#B6C3A2', color: '#733838'}};
         while(index >= 0){
           var tweet = streams.home[index];
           var $tweet = $('<div class="' + tweet.user + '"></div>');
@@ -24,10 +40,6 @@
             + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'am';
           }
 /* End time-stamp creation/formatting code */
-          var userStyles = {douglascalhoun: {bkgrnd: '#808080', color: 'white'},
-                            mracus: {bkgrnd: '#BECACF', color: 'black'},
-                            shawndrost: {bkgrnd: '#DEDEDE', color: '#258028'},
-                            sharksforcheap: {bkgrnd: '#B6C3A2', color: '#733838'}};
           $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + timestamp)
                 .css({'font-size': '18px',
                       width: '95%',
@@ -38,7 +50,7 @@
                       // float: 'top',
                       'border-radius': '10px'
                 });
-          $tweet.appendTo($body);
+          $tweet.appendTo($content);
           index -= 1;
         }
 
