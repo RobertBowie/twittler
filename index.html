@@ -13,7 +13,7 @@
                     <div class="menu">\
                     <ul class="menu-items">\
                           <li><a href="#" class="update">Update Feed</a></li>\
-                          <li><a href="#">Live Mode</a></li>\
+                          <li><a href="#" class="live">Live Mode</a></li>\
                       </ul>\
                     </div>\
                   </nav>\
@@ -115,6 +115,8 @@
           }
         };
         $('.update').on('click', updateTweets);
+        $('.live').on('click', function(){console.log('this should be live mode')});
+        $('.content > div').on('click', function(){console.log( $(this).attr("class") )});
       });
     </script>
   </body>
