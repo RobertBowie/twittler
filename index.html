@@ -6,13 +6,13 @@
   </head>
   <body>
     <script>
-
+      var tweetCounter;
       $(document).ready(function(){
         var $body = $('body');
         $body.html('<nav class="fixed-nav-bar">\
                     <div class="menu" style="width: 95%; height: 60px ;margin: 0 auto;">\
                     <ul class="menu-items">\
-                          <li><a href="#">Refresh</a></li>\
+                          <li><a href="#" class="update">Update Feed</a></li>\
                           <li><a href="#">Live Mode</a></li>\
                       </ul>\
                     </div>\
@@ -46,40 +46,72 @@
                         'margin-left': '10px'});
         $links.css({'text-decoration': 'none',
                     'color': '#808080'});
-        var index = streams.home.length - 1;
         var userStyles = {douglascalhoun: {bkgrnd: '#808080', color: 'white'},
                           mracus: {bkgrnd: '#BECACF', color: 'black'},
                           shawndrost: {bkgrnd: '#DEDEDE', color: '#258028'},
                           sharksforcheap: {bkgrnd: '#B6C3A2', color: '#733838'}};
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div class="' + tweet.user + '"></div>');
-/* Time-stamp to use later on in tweet div */
-          var timestamp = '';
-          if (tweet.created_at.getHours() > 12) {
-            timestamp += (tweet.created_at.getHours() - 12) + ':'
-            + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'pm';
-          } else {
-            timestamp += tweet.created_at.getHours() + ':'
-            + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'am';
+        function printTweets() {
+          var index = streams.home.length - 1;
+          tweetCounter = streams.home.length;
+          while(index >= 0){
+            var tweet = streams.home[index];
+            var $tweet = $('<div class="' + tweet.user + '"></div>');
+  /* Time-stamp to use later on in tweet div */
+            var timestamp = '';
+            if (tweet.created_at.getHours() > 12) {
+              timestamp += (tweet.created_at.getHours() - 12) + ':'
+              + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'pm';
+            } else {
+              timestamp += tweet.created_at.getHours() + ':'
+              + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'am';
+            }
+  /* End time-stamp creation/formatting code */
+            $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + timestamp)
+                  .css({'font-size': '18px',
+                        width: '95%',
+                        'color': userStyles[tweet.user].color,
+                        'background-color': userStyles[tweet.user].bkgrnd,
+                        padding: '15px',
+                        margin: '10px auto',
+                        'border-radius': '10px'
+                  });
+            $tweet.appendTo($content);
+            index -= 1;
           }
-/* End time-stamp creation/formatting code */
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + timestamp)
-                .css({'font-size': '18px',
-                      width: '95%',
-                      'color': userStyles[tweet.user].color,
-                      'background-color': userStyles[tweet.user].bkgrnd,
-                      padding: '15px',
-                      margin: '10px auto',
-                      // float: 'top',
-                      'border-radius': '10px'
-                });
-          $tweet.appendTo($content);
-          index -= 1;
-        }
-
+        };
+        printTweets();
+        function updateTweets() {
+          var $recentTweet = $('.content div')[0];
+          var tweetCount = streams.home.length - tweetCounter;
+          var newestTweetIndex = streams.home.length - 1;
+          for (var i = tweetCount; i > 0; i--) {
+            var tweet = streams.home[newestTweetIndex];
+            newestTweetIndex--;
+            var $tweet = $('<div class="' + tweet.user + '"></div>');
+  /* Time-stamp to use later on in tweet div */
+            var timestamp = '';
+            if (tweet.created_at.getHours() > 12) {
+              timestamp += (tweet.created_at.getHours() - 12) + ':'
+              + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'pm';
+            } else {
+              timestamp += tweet.created_at.getHours() + ':'
+              + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'am';
+            }
+  /* End time-stamp creation/formatting code */
+            $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + timestamp)
+                  .css({'font-size': '18px',
+                        width: '95%',
+                        'color': userStyles[tweet.user].color,
+                        'background-color': userStyles[tweet.user].bkgrnd,
+                        padding: '15px',
+                        margin: '10px auto',
+                        'border-radius': '10px'
+                  });
+            $tweet.insertBefore($recentTweet);
+          }
+        };
+        $('.update').on('click', updateTweets);
       });
-
     </script>
   </body>
 </html>
