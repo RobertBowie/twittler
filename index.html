@@ -13,7 +13,7 @@
         var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
+          var $tweet = $('<div class="' + tweet.user + '"></div>');
 /* Time-stamp to use later on in Upper right corner of tweet div */
           var timestamp = '';
           if (tweet.created_at.getHours() > 12) {
@@ -24,12 +24,15 @@
             + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'am';
           }
 /* End time-stamp creation/formatting code */
-          var backgrndColors = {douglascalhoun: 'grey', mracus: '#BECACF',
-                shawndrost: 'rgba(128, 128, 128, 0.26)', sharksforcheap: 'rgba(116, 5, 5, 0.4)'};
+          var userStyles = {douglascalhoun: {bkgrnd: '#808080', color: 'white'},
+                            mracus: {bkgrnd: '#BECACF', color: 'black'},
+                            shawndrost: {bkgrnd: '#DEDEDE', color: '#258028'},
+                            sharksforcheap: {bkgrnd: '#B6C3A2', color: '#733838'}};
           $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + timestamp)
                 .css({'font-size': '18px',
                       width: '95%',
-                      'background-color': 'gray',
+                      'color': userStyles[tweet.user].color,
+                      'background-color': userStyles[tweet.user].bkgrnd,
                       padding: '15px',
                       margin: '10px auto',
                       // float: 'top',
