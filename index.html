@@ -10,11 +10,11 @@
       $(document).ready(function(){
         var $body = $('body');
         $body.html('');
-
         var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
           var $tweet = $('<div></div>');
+/* Time-stamp to use later on in Upper right corner of tweet div */
           var timestamp = '';
           if (tweet.created_at.getHours() > 12) {
             timestamp += (tweet.created_at.getHours() - 12) + ':'
@@ -23,7 +23,16 @@
             timestamp += tweet.created_at.getHours() + ':'
             + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'am';
           }
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + timestamp);
+/* End time-stamp creation/formatting code */
+          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + timestamp)
+                .css({'font-size': '18px',
+                      width: '85%',
+                      'background-color': 'gray',
+                      padding: '15px',
+                      margin: '10px auto',
+                      float: 'top',
+                      'border-radius': '10px'
+                });
           $tweet.appendTo($body);
           index -= 1;
         }
