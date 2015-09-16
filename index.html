@@ -17,28 +17,28 @@
                       </ul>\
                     </div>\
                   </nav>\
-                  <div class="content" style="margin-top: 65px;">\
-                  </div>').css(
-                            {'background-size': 'cover',
-                            'background-color': 'black'
-                            });
+                  <div class="content">\
+                  </div>')
         var $navBar = $('.fixed-nav-bar');
         var $menu = $('.menu');
         var $content = $('.content');
         var $menuItems = $('.menu-items');
         var $menuLi = $('li');
         var $links = $('a');
+        $body.css({'background-size': 'cover',
+                   'background-color': '#272727'});
         $menu.css({'width': '95%',
                    'height': '60px',
                    'margin': '0 auto'});
         $navBar.css({'position': 'fixed',
-                    'top': '0',
+                    'top': '-10px',
                     'left': '0',
                     'z-index': '9999',
                     'width': '100%',
                     'height': '60px',
-                    'line-height': '60px',
-                    'background-color': '#000'});
+                    'line-height': '70px',
+                    'background-color': '#000',
+                    'border-radius': '15px'});
         $menuItems.css({'display': 'inline-block',
                     'margin': '0',
                     'padding': '0',
@@ -50,6 +50,8 @@
                     'margin-left': '10px'});
         $links.css({'text-decoration': 'none',
                     'color': '#808080'});
+        $content.css({'margin-top': '55px'});
+
         var userStyles = {douglascalhoun: {bkgrnd: '#808080', color: 'white'},
                           mracus: {bkgrnd: '#BECACF', color: 'black'},
                           shawndrost: {bkgrnd: '#DEDEDE', color: '#258028'},
