@@ -10,6 +10,8 @@
       $(document).ready(function(){
         var $body = $('body');
         $body.html('<nav class="fixed-nav-bar">\
+                    <div class="logo">\
+                    </div>\
                     <div class="menu">\
                     <ul class="menu-items">\
                           <li><a href="#" class="update">Update Feed</a></li>\
@@ -21,6 +23,7 @@
                   </div>')
         var $navBar = $('.fixed-nav-bar');
         var $menu = $('.menu');
+        var $logo = $('.logo');
         var $content = $('.content');
         var $menuItems = $('.menu-items');
         var $menuLi = $('li');
@@ -39,6 +42,11 @@
                     'line-height': '70px',
                     'background-color': '#000',
                     'border-radius': '15px'});
+        $logo.css({'content':'url(twitterlike-bird.png)',
+                   'float': 'left',
+                   'margin-top': '9px',
+                   'margin-left': '5px',
+                   'border-radius': '10px'});
         $menuItems.css({'display': 'inline-block',
                     'margin': '0',
                     'padding': '0',
