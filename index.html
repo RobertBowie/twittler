@@ -70,13 +70,13 @@
               + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'am';
             }
   /* End time-stamp creation/formatting code */
-            $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + timestamp)
-                  .css({'font-size': '18px',
-                        width: '95%',
+            $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + timestamp);
+            $tweet.css({'font-size': '18px',
+                        'width': '95%',
                         'color': userStyles[tweet.user].color,
                         'background-color': userStyles[tweet.user].bkgrnd,
-                        padding: '15px',
-                        margin: '10px auto',
+                        'padding': '15px',
+                        'margin': '10px auto',
                         'border-radius': '10px'
                   });
             $tweet.appendTo($content);
@@ -102,21 +102,52 @@
               + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'am';
             }
   /* End time-stamp creation/formatting code */
-            $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + timestamp)
-                  .css({'font-size': '18px',
-                        width: '95%',
+            $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + timestamp);
+            $tweet.css({'font-size': '18px',
+                        'width': '95%',
                         'color': userStyles[tweet.user].color,
                         'background-color': userStyles[tweet.user].bkgrnd,
-                        padding: '15px',
-                        margin: '10px auto',
+                        'padding': '15px',
+                        'margin': '10px auto',
                         'border-radius': '10px'
                   });
-            $tweet.insertBefore($recentTweet);
+            $($tweet.insertBefore($recentTweet)).on('click', function(){userTimeline( $(this).attr("class") )});
+
           }
         };
+        function userTimeline(username) {
+          var userTweets = streams.users[username];
+          var index = userTweets.length - 1;
+          $($content).empty();
+          while (index > 0) {
+            var tweet = userTweets[index];
+            var $tweet = $('<div class="' + userTweets[index].user + '"></div>');
+  /* Time-stamp to use later on in tweet div */
+            var timestamp = '';
+            if (tweet.created_at.getHours() > 12) {
+              timestamp += (tweet.created_at.getHours() - 12) + ':'
+              + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'pm';
+            } else {
+              timestamp += tweet.created_at.getHours() + ':'
+              + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'am';
+            }
+  /* End time-stamp creation/formatting code */
+            $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + timestamp);
+            $tweet.css({'font-size': '18px',
+                        'width': '95%',
+                        'color': userStyles[tweet.user].color,
+                        'background-color': userStyles[tweet.user].bkgrnd,
+                        'padding': '15px',
+                        'margin': '10px auto',
+                        'border-radius': '10px'
+                  });
+            $tweet.appendTo($content);
+            index -= 1;
+          }
+        }
         $('.update').on('click', updateTweets);
         $('.live').on('click', function(){console.log('this should be live mode')});
-        $('.content > div').on('click', function(){console.log( $(this).attr("class") )});
+        $('.content > div').on('click', function(){ userTimeline($(this).attr("class")) });
       });
     </script>
   </body>
