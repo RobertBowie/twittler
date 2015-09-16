@@ -156,7 +156,12 @@
           }
         }
         $('.update').on('click', updateTweets);
-        $('.live').on('click', function(){console.log('this should be live mode')});
+        var liveMode = false;
+        setInterval(function(){ if(liveMode) {
+            updateTweets();
+          }
+        }, 1000);
+        $('.live').on('click', function(){ if(liveMode) {liveMode = false} else { liveMode = true } });
         $('.content > div').on('click', function(){ userTimeline($(this).attr("class")) });
       });
     </script>
