@@ -172,10 +172,11 @@
         setInterval(function(){ if(liveMode) {
             updateTweets();
           }
-        }, 1000);
+        }, 1500);
         $('.live').on('click', function(){ if(liveMode) {liveMode = false} else { liveMode = true } });
         $('.content > div').on('click', function(){ userTimeline($(this).attr("class")) });
-        $submitButton.on('click', function(){ writeTweet($textInput.val()); $textInput.val('') });
+        $submitButton.on('click', function(){ writeTweet($textInput.val()); $textInput.val(''); });
+        $('#one').keypress(function(event) { if (event.keyCode == 13) { writeTweet($textInput.val()); $textInput.val(''); } });
       });
     </script>
   </body>
