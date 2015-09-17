@@ -180,6 +180,7 @@
         }, 1000);
         $('.live').on('click', function(){ if(liveMode) {liveMode = false} else { liveMode = true } });
         $('.content > div').on('click', function(){ userTimeline($(this).attr("class")) });
+        $submitButton.on('click', function(){ writeTweet($textInput.val()); $textInput.val('') });
       });
     </script>
   </body>
