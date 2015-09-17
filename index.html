@@ -143,10 +143,11 @@
           }
         };
         function userTimeline(username) {
+          liveMode = false;
           var userTweets = streams.users[username];
           var index = userTweets.length - 1;
           $($content).empty();
-          while (index > 0) {
+          while (index >= 0) {
             var tweet = userTweets[index];
             var $tweet = $('<div class="' + userTweets[index].user + '"></div>');
   /* Time-stamp to use later on in tweet div */
