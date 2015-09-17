@@ -149,7 +149,6 @@
           $($content).empty();
           while (index >= 0) {
             var tweet = userTweets[index];
-            var $tweet = $('<div class="' + userTweets[index].user + '"></div>');
   /* Time-stamp to use later on in tweet div */
             var timestamp = '';
             if (tweet.created_at.getHours() > 12) {
@@ -160,7 +159,10 @@
               + ('0' + tweet.created_at.getMinutes()).slice(-2) + 'am';
             }
   /* End time-stamp creation/formatting code */
-            $tweet.text('@' + tweet.user + ': ' + tweet.message + ' - ' + timestamp);
+            var $tweet = $('<div class="' + userTweets[index].user + '"></div>');
+            var $timestamp = $('<div>' + timestamp + '</div>');
+            $timestamp.css({'float': 'right'});
+            $tweet.text('@' + tweet.user + ': ' + tweet.message);
             $tweet.css({'font-size': '18px',
                         'width': '95%',
                         'color': userStyles[tweet.user].color,
@@ -169,7 +171,8 @@
                         'margin': '10px auto',
                         'border-radius': '10px'
                   });
-            $tweet.appendTo($content);
+            var $test = $($tweet.appendTo($content));
+            $test.append($timestamp);
             index -= 1;
           }
         }
