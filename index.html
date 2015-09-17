@@ -6,6 +6,7 @@
   </head>
   <body>
     <script>
+      var visitor = "Guest";
       var tweetCounter;
       $(document).ready(function(){
         var $body = $('body');
@@ -13,6 +14,8 @@
                     <div class="logo">\
                     </div>\
                     <div class="menu">\
+                    <input type="text" id="one" placeholder=" Join the conversation" />\
+                    <input type="button" id="submitButton" value="Submit">\
                     <ul class="menu-items">\
                           <li><a href="#" class="update">Update Feed</a></li>\
                           <li><a href="#" class="live">Live Mode</a></li>\
@@ -24,6 +27,8 @@
         var $navBar = $('.fixed-nav-bar');
         var $menu = $('.menu');
         var $logo = $('.logo');
+        var $textInput = $('#one');
+        var $submitButton = $('#submitButton');
         var $content = $('.content');
         var $menuItems = $('.menu-items');
         var $menuLi = $('li');
@@ -33,6 +38,17 @@
         $menu.css({'width': '95%',
                    'height': '60px',
                    'margin': '0 auto'});
+        $textInput.css({'margin-left': '20px',
+                    'margin-right': '3px',
+                    'height': '25px',
+                    'border-radius': '3px',
+                    'font-size': 'larger',
+                    'background-color': '#2B2B2B',
+                    'color': '#A9A9A1',
+                    'outline': '0'});
+        $submitButton.css({'height': '31px',
+                    'border-radius': '3px',
+                    'font-size': 'larger'})
         $navBar.css({'position': 'fixed',
                     'top': '-10px',
                     'left': '0',
@@ -43,10 +59,10 @@
                     'background-color': '#000',
                     'border-radius': '15px'});
         $logo.css({'content':'url(twitterlike-bird.png)',
-                   'float': 'left',
-                   'margin-top': '9px',
-                   'margin-left': '5px',
-                   'border-radius': '10px'});
+                    'float': 'left',
+                    'margin-top': '9px',
+                    'margin-left': '5px',
+                    'border-radius': '10px'});
         $menuItems.css({'display': 'inline-block',
                     'margin': '0',
                     'padding': '0',
@@ -63,7 +79,8 @@
         var userStyles = {douglascalhoun: {bkgrnd: '#808080', color: 'white'},
                           mracus: {bkgrnd: '#BECACF', color: 'black'},
                           shawndrost: {bkgrnd: '#DEDEDE', color: '#258028'},
-                          sharksforcheap: {bkgrnd: '#B6C3A2', color: '#733838'}};
+                          sharksforcheap: {bkgrnd: '#B6C3A2', color: '#733838'},
+                          Guest: {bkgrnd: '#000', color : 'red'}};
         function printTweets() {
           var index = streams.home.length - 1;
           tweetCounter = streams.home.length;
