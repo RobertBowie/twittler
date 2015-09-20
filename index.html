@@ -42,7 +42,7 @@
         var $hamburger = $('.hamburger');
         var $hamburgerLink = $('#hamburgerLink');
         var $burgerKid = $('.hamburger div');
-        var $usernameBox = $('#userName');
+        var $userNameBox = $('#userName');
         $body.css({'background-size': 'cover',
                    'background-color': '#272727'});
         $navBar.css({'position': 'fixed',
@@ -97,7 +97,7 @@
                     'background': '#000',
                     'padding-right': '5px',
                     'border-radius': '10px'});
-        $usernameBox.css({
+        $userNameBox.css({
                     'margin-left': '9px',
                     'height': '30px',
                     'font-size': '.84em',
@@ -114,7 +114,10 @@
                           Guest: {bkgrnd: '#000', color : 'red'}};
 
         function addUser(userName) {
-          userStyles[userName] = userStyles.Guest;
+          if (userName.length > 0) {
+            visitor = userName;
+            userStyles[userName] = userStyles.Guest;
+          }
         };
 
         function buildTimeStamp(time) {
@@ -245,7 +248,7 @@
 // Call the writeTweet function from data_generator.js when the user clicks "Submit" or hits the Enter key in the text field:
 //-------------------------------------------------------------------------------------------------------------------------------
         $submitButton.on('click', function() { writeTweet($textInput.val()); $textInput.val(''); });
-        $('#one').keypress(function(event) { if (event.keyCode == 13) { writeTweet($textInput.val()); $textInput.val(''); } });
+        $('#one').keypress(function(event) { if (event.keyCode === 13) { writeTweet($textInput.val()); $textInput.val(''); } });
 //-------------------------------------------------------------------------------------------------------------------------------
 // Opens the drop-down menu that contains the userName entry field:
 //-------------------------------------------------------------------------------------------------------------------------------
@@ -259,7 +262,16 @@
 //-------------------------------------------------------------------------------------------------------------------------------
 // Sets a userName when the Enter key is pressed with content in the userName field by calling addUser():
 //-------------------------------------------------------------------------------------------------------------------------------
-
+        $userNameBox.keypress(function(event) {
+          if (event.keyCode === 13) {
+            var name = $userNameBox.val();
+            if (name) {
+              addUser(name);
+            }
+          $burgerKid.slideToggle(200);
+          $userNameBox.val('')
+          }
+        });
 //-------------------------------------------------------------------------------------------------------------------------------
 // End of event listeners.
 //-------------------------------------------------------------------------------------------------------------------------------
