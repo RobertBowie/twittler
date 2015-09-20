@@ -3,22 +3,28 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <meta charset="utf-8">
   </head>
   <body>
     <script>
       var visitor = "Guest";
       var tweetCounter;
-      $(document).ready(function(){
+      $(document).ready(function() {
         var $body = $('body');
         $body.html('<nav class="fixed-nav-bar">\
                     <div class="logo">\
                     </div>\
                     <div class="menu">\
-                    <input type="text" id="one" placeholder=" Join the conversation" />\
-                    <input type="button" id="submitButton" value="Submit">\
-                    <ul class="menu-items">\
+                      <input type="text" id="one" placeholder=" Join the conversation" />\
+                      <input type="button" id="submitButton" value="Submit">\
+                      <ul class="menu-items">\
                           <li><a href="#" class="update">Update Feed</a></li>\
                           <li><a href="#" class="live">Live Mode</a></li>\
+                          <li class="hamburger"><a href="#" id="hamburgerLink">☰</a>\
+                              <div>\
+                                  <input type="text" id="userName" placeholder="Username">\
+                              </div>\
+                          </li>\
                       </ul>\
                     </div>\
                   </nav>\
@@ -33,22 +39,12 @@
         var $menuItems = $('.menu-items');
         var $menuLi = $('li');
         var $links = $('a');
+        var $hamburger = $('.hamburger');
+        var $hamburgerLink = $('#hamburgerLink');
+        var $burgerKid = $('.hamburger div');
+        var $usernameBox = $('#userName');
         $body.css({'background-size': 'cover',
                    'background-color': '#272727'});
-        $menu.css({'width': '95%',
-                   'height': '60px',
-                   'margin': '0 auto'});
-        $textInput.css({'margin-left': '20px',
-                    'margin-right': '3px',
-                    'height': '25px',
-                    'border-radius': '3px',
-                    'font-size': 'larger',
-                    'background-color': '#2B2B2B',
-                    'color': '#A9A9A1',
-                    'outline': '0'});
-        $submitButton.css({'height': '31px',
-                    'border-radius': '3px',
-                    'font-size': 'larger'})
         $navBar.css({'position': 'fixed',
                     'top': '-10px',
                     'left': '0',
@@ -58,12 +54,28 @@
                     'line-height': '70px',
                     'background-color': '#000',
                     'border-radius': '15px'});
+        $menu.css({'width': '95%',
+                   'height': '60px',
+                   'margin': '0 auto'});
         $logo.css({'content':'url(twitterlike-bird.png)',
                     'float': 'left',
                     'margin-top': '9px',
                     'margin-left': '5px',
                     'border-radius': '10px'});
-        $menuItems.css({'display': 'inline-block',
+        $textInput.css({'margin-left': '20px',
+                    'margin-right': '3px',
+                    'height': '25px',
+                    'border-radius': '3px',
+                    'font-size': 'larger',
+                    'background-color': '#2B2B2B',
+                    'color': '#A9A9A1',
+                    'outline': '0',
+                    'width': '26%'});
+        $submitButton.css({'height': '31px',
+                    'border-radius': '3px',
+                    'font-size': 'larger'})
+        $menuItems.css({
+                    'display': 'inline-block',
                     'margin': '0',
                     'padding': '0',
                     'border': '0',
@@ -74,6 +86,24 @@
                     'margin-left': '10px'});
         $links.css({'text-decoration': 'none',
                     'color': '#808080'});
+        $hamburger.css({
+                    'font-size': '30px',
+                    'margin-right': '-33px'});
+        $burgerKid.css({
+                    'display': 'none',
+                    'position': 'absolute',
+                    'top': '50px',
+                    'right': '0',
+                    'background': '#000',
+                    'padding-right': '5px',
+                    'border-radius': '10px'});
+        $usernameBox.css({
+                    'margin-left': '9px',
+                    'height': '30px',
+                    'font-size': '.84em',
+                    'width': '95%',
+                    'color': '#A9A9A1',
+                    'background-color': '#2B2B2B'});
         $content.css({'margin-top': '55px'});
 
         var userStyles = {douglascalhoun: {bkgrnd: '#808080', color: 'white'},
@@ -97,7 +127,7 @@
         function printTweets() {
           var index = streams.home.length - 1;
           tweetCounter = streams.home.length;
-          while(index >= 0){
+          while(index >= 0) {
             var tweet = streams.home[index];
             var time = tweet.created_at;
             var $tweet = $('<div class="' + tweet.user + '"></div>');
@@ -138,7 +168,7 @@
                         'margin': '10px auto',
                         'border-radius': '10px'
                   });
-            var $addTo = $($tweet.insertBefore($recentTweet)).on('click', function(){userTimeline( $(this).attr("class") )});
+            var $addTo = $($tweet.insertBefore($recentTweet)).on('click', function() {userTimeline( $(this).attr("class") )});
             $addTo.append($timestamp);
           }
         };
@@ -169,14 +199,21 @@
         }
         $('.update').on('click', updateTweets);
         var liveMode = false;
-        setInterval(function(){ if(liveMode) {
+        setInterval(function() { if(liveMode) {
             updateTweets();
           }
         }, 1500);
-        $('.live').on('click', function(){ if(liveMode) {liveMode = false} else { liveMode = true } });
-        $('.content > div').on('click', function(){ userTimeline($(this).attr("class")) });
-        $submitButton.on('click', function(){ writeTweet($textInput.val()); $textInput.val(''); });
+        $('.live').on('click', function() { if(liveMode) {liveMode = false} else { liveMode = true } });
+        $('.content > div').on('click', function() { userTimeline($(this).attr("class")) });
+        $submitButton.on('click', function() { writeTweet($textInput.val()); $textInput.val(''); });
         $('#one').keypress(function(event) { if (event.keyCode == 13) { writeTweet($textInput.val()); $textInput.val(''); } });
+        $hamburger.on('click', function(e) {
+          if (e.target !== $hamburgerLink[0]) {
+            return;
+          } else {
+          $burgerKid.slideToggle(200)
+          }
+        });
       });
     </script>
   </body>
