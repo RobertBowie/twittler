@@ -103,7 +103,8 @@
                     'font-size': '.84em',
                     'width': '95%',
                     'color': '#A9A9A1',
-                    'background-color': '#2B2B2B'});
+                    'background-color': '#2B2B2B',
+                    'outline': '0'});
         $content.css({'margin-top': '55px'});
 
         var userStyles = {douglascalhoun: {bkgrnd: '#808080', color: 'white'},
@@ -111,6 +112,10 @@
                           shawndrost: {bkgrnd: '#DEDEDE', color: '#258028'},
                           sharksforcheap: {bkgrnd: '#B6C3A2', color: '#733838'},
                           Guest: {bkgrnd: '#000', color : 'red'}};
+
+        function addUser(userName) {
+          userStyles[userName] = userStyles.Guest;
+        };
 
         function buildTimeStamp(time) {
           var timestamp = '';
@@ -124,30 +129,11 @@
           }
           return timestamp;
         };
-        function printTweets() {
-          var index = streams.home.length - 1;
-          tweetCounter = streams.home.length;
-          while(index >= 0) {
-            var tweet = streams.home[index];
-            var time = tweet.created_at;
-            var $tweet = $('<div class="' + tweet.user + '"></div>');
-            var $timestamp = $('<div>' + buildTimeStamp(time) + '</div>');
-            $timestamp.css({'float': 'right'});
-            $tweet.text('@' + tweet.user + ': ' + tweet.message);
-            $tweet.css({'font-size': '18px',
-                        'width': '95%',
-                        'color': userStyles[tweet.user].color,
-                        'background-color': userStyles[tweet.user].bkgrnd,
-                        'padding': '15px',
-                        'margin': '10px auto',
-                        'border-radius': '10px'
-                  });
-            var $addTo = $tweet.appendTo($content);
-            $addTo.append($timestamp);
-            index -= 1;
-          }
-        };
-        printTweets();
+
+
+//-------------------------------------------------------------------------------------------------------------------------------
+// updateTweets handles the "Update Feed" link action:
+//-------------------------------------------------------------------------------------------------------------------------------
         function updateTweets() {
           var $recentTweet = $('.content div')[0];
           var tweetCount = streams.home.length - tweetCounter;
@@ -197,23 +183,86 @@
             index -= 1;
           }
         }
-        $('.update').on('click', updateTweets);
+
+//-------------------------------------------------------------------------------------------------------------------------------
+// printTweets handles the content building on page load:
+//-------------------------------------------------------------------------------------------------------------------------------
+        function printTweets() {
+          var index = streams.home.length - 1;
+          tweetCounter = streams.home.length;
+          while(index >= 0) {
+            var tweet = streams.home[index];
+            var time = tweet.created_at;
+            var $tweet = $('<div class="' + tweet.user + '"></div>');
+            var $timestamp = $('<div>' + buildTimeStamp(time) + '</div>');
+            $timestamp.css({'float': 'right'});
+            $tweet.text('@' + tweet.user + ': ' + tweet.message);
+            $tweet.css({'font-size': '18px',
+                        'width': '95%',
+                        'color': userStyles[tweet.user].color,
+                        'background-color': userStyles[tweet.user].bkgrnd,
+                        'padding': '15px',
+                        'margin': '10px auto',
+                        'border-radius': '10px'
+                  });
+            var $addTo = $tweet.appendTo($content);
+            $addTo.append($timestamp);
+            index -= 1;
+          }
+        };
+
+//-------------------------------------------------------------------------------------------------------------------------------
+// Flow Control:
+//-------------------------------------------------------------------------------------------------------------------------------
+        printTweets();
+//-------------------------------------------------------------------------------------------------------------------------------
+// Main Live Mode controller:
+//-------------------------------------------------------------------------------------------------------------------------------
         var liveMode = false;
+
         setInterval(function() { if(liveMode) {
             updateTweets();
           }
         }, 1500);
+
+//-------------------------------------------------------------------------------------------------------------------------------
+// Beginning  of event listeners:
+//-------------------------------------------------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------------------------------------------
+// Updates feed when "Update Feed" is clicked:
+//-------------------------------------------------------------------------------------------------------------------------------
+        $('.update').on('click', updateTweets);
+//-------------------------------------------------------------------------------------------------------------------------------
+// Toggle live mode when "Live Mode" link is clicked:
+//-------------------------------------------------------------------------------------------------------------------------------
         $('.live').on('click', function() { if(liveMode) {liveMode = false} else { liveMode = true } });
+//-------------------------------------------------------------------------------------------------------------------------------
+// Build the time-line of the user belonging to the clicked div:
+//-------------------------------------------------------------------------------------------------------------------------------
         $('.content > div').on('click', function() { userTimeline($(this).attr("class")) });
+//-------------------------------------------------------------------------------------------------------------------------------
+// Call the writeTweet function from data_generator.js when the user clicks "Submit" or hits the Enter key in the text field:
+//-------------------------------------------------------------------------------------------------------------------------------
         $submitButton.on('click', function() { writeTweet($textInput.val()); $textInput.val(''); });
         $('#one').keypress(function(event) { if (event.keyCode == 13) { writeTweet($textInput.val()); $textInput.val(''); } });
+//-------------------------------------------------------------------------------------------------------------------------------
+// Opens the drop-down menu that contains the userName entry field:
+//-------------------------------------------------------------------------------------------------------------------------------
         $hamburger.on('click', function(e) {
           if (e.target !== $hamburgerLink[0]) {
             return;
           } else {
-          $burgerKid.slideToggle(200)
+          $burgerKid.slideToggle(200);
           }
         });
+//-------------------------------------------------------------------------------------------------------------------------------
+// Sets a userName when the Enter key is pressed with content in the userName field by calling addUser():
+//-------------------------------------------------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------------------------------------------
+// End of event listeners.
+//-------------------------------------------------------------------------------------------------------------------------------
       });
     </script>
   </body>
