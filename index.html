@@ -3,6 +3,7 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <script src="jquery.timeago.js" type="text/javascript"></script>
     <meta charset="utf-8">
   </head>
   <body>
@@ -120,6 +121,9 @@
           }
         };
 
+//-------------------------------------------------------------------------------------------------------------------------------
+// Handles timestamps and things Time related:
+//-------------------------------------------------------------------------------------------------------------------------------
         function buildTimeStamp(time) {
           var timestamp = '';
           // var timeObj = {};
@@ -133,6 +137,11 @@
           return timestamp;
         };
 
+        function humanTime(time) {
+          var isoTime = time.toISOString();
+          var $timeagoStamp = $('<abbr class="timeago" title="' + isoTime + '">' + buildTimeStamp(time) + '</abbr>');
+          return $timeagoStamp;
+        }
 
 //-------------------------------------------------------------------------------------------------------------------------------
 // updateTweets handles the "Update Feed" link action:
@@ -146,7 +155,7 @@
             var time = tweet.created_at;
             newestTweetIndex--;
             var $tweet = $('<div class="' + tweet.user + '"></div>');
-            var $timestamp = $('<div>' + buildTimeStamp(time) + '</div>');
+            var $timestamp = humanTime(time);//$('<div>' + buildTimeStamp(time) + '</div>');
             $timestamp.css({'float': 'right'});
             $tweet.text('@' + tweet.user + ': ' + tweet.message);
             $tweet.css({'font-size': '18px',
@@ -170,7 +179,7 @@
             var tweet = userTweets[index];
             var time = tweet.created_at;
             var $tweet = $('<div class="' + userTweets[index].user + '"></div>');
-            var $timestamp = $('<div>' + buildTimeStamp(time) + '</div>');
+            var $timestamp = humanTime(time);
             $timestamp.css({'float': 'right'});
             $tweet.text('@' + tweet.user + ': ' + tweet.message);
             $tweet.css({'font-size': '18px',
@@ -197,7 +206,7 @@
             var tweet = streams.home[index];
             var time = tweet.created_at;
             var $tweet = $('<div class="' + tweet.user + '"></div>');
-            var $timestamp = $('<div>' + buildTimeStamp(time) + '</div>');
+            var $timestamp = humanTime(time);//$('<div>' + buildTimeStamp(time) + '</div>');
             $timestamp.css({'float': 'right'});
             $tweet.text('@' + tweet.user + ': ' + tweet.message);
             $tweet.css({'font-size': '18px',
@@ -226,6 +235,7 @@
         setInterval(function() { if(liveMode) {
             updateTweets();
           }
+          $("abbr.timeago").timeago();
         }, 1500);
 
 //-------------------------------------------------------------------------------------------------------------------------------
